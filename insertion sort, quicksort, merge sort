@@ -1,0 +1,118 @@
+#Список. Реалізації на основі зв’язних списків, масивів, бібліотечних засобів.
+#Алгоритми сортування: insertion sort, quicksort, merge sort.
+# Класс узла для связанного списка
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# Класс связанного списка
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def add(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = new_node
+
+    def to_array(self):
+        array = []
+        current = self.head
+        while current:
+            array.append(current.data)
+            current = current.next
+        return array
+
+# Реализация массива
+class Array:
+    def __init__(self):
+        self.items = []
+
+    def add(self, data):
+        self.items.append(data)
+
+    def to_array(self):
+        return self.items
+
+# Реализация библиотечных ресурсов
+
+# Insertion Sort algorithm
+def insertion_sort(lst):
+    for i in range(1, len(lst)):
+        key = lst[i]
+        j = i - 1
+        while j >= 0 and lst[j] > key:
+            lst[j + 1] = lst[j]
+            j -= 1
+        lst[j + 1] = key
+
+# Алгоритм быстрой сортировки
+def quicksort(lst):
+    if len(lst) <= 1:
+        return lst
+    pivot = lst[len(lst) // 2]
+    left = [x for x in lst if x < pivot]
+    middle = [x for x in lst if x == pivot]
+    right = [x for x in lst if x > pivot]
+    return quicksort(left) + middle + quicksort(right)
+
+# Алгоритм сортировки слиянием
+def merge_sort(lst):
+    if len(lst) <= 1:
+        return lst
+    mid = len(lst) // 2
+    left = lst[:mid]
+    right = lst[mid:]
+    left = merge_sort(left)
+    right = merge_sort(right)
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+# Пример использования реализаций
+linked_list = LinkedList()
+linked_list.add(30)
+linked_list.add(10)
+linked_list.add(50)
+linked_list.add(20)
+linked_list.add(40)
+array = linked_list.to_array()
+print("Linked List:", array)
+
+array_list = Array()
+array_list.add(30)
+array_list.add(10)
+array_list.add(50)
+array_list.add(20)
+array_list.add(40)
+array = array_list.to_array()
+print("Array:", array)
+
+insertion_sort(array)
+print("Insertion Sort:", array)
+
+array = array_list.to_array()
+quicksort(array)
+print("Quicksort:", array)
+
+array = array_list.to_array()
+array = merge_sort(array)
+print("Merge Sort:", array)
